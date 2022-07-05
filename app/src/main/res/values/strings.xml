@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LogisticApp</string>
+    <string-array name="vehicles">
+        <item>Auto</item>
+        <item>Omni</item>
+        <item>Semi Truck</item>
+        <item>Truck</item>
+    </string-array>
+</resources>
