@@ -3,6 +3,7 @@ package com.example.logisticapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    public static DBHelper db;
     private Spinner spinner;
     private Button book;
     private EditText from,to,dis;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextView vehc;
 
     String vehSt;
+
+   // DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         vehc = findViewById(R.id.vehc);
 
         vehc.setText("Semi Truck");
+
+        db = new DBHelper(this);
 
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.vehicles, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
 //        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
@@ -122,12 +128,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(getApplicationContext(),"Enter all the details",Toast.LENGTH_SHORT).show();
         }
         else {
-            Intent intent = new Intent(this, bookedStatus.class);
 
-            intent.putExtra("from", fromSt);
-            intent.putExtra("to", toSt);
-            intent.putExtra("dis", disSt);
-            intent.putExtra("veh", vehSt);
+            long len = db.getTableLen();
+            String ind = String.valueOf(len);
+
+            Boolean checkData = db.insertData(ind,fromSt,toSt,disSt,vehSt);
+
+            if(checkData == true)
+                Toast.makeText(this,"New Entry Inserted",Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this,"New Entry Not Inserted",Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, allBookings.class);
+
+//            intent.putExtra("from", fromSt);
+//            intent.putExtra("to", toSt);
+//            intent.putExtra("dis", disSt);
+//            intent.putExtra("veh", vehSt);
 
             startActivity(intent);
         }
