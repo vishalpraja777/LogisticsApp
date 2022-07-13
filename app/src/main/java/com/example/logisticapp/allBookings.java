@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class allBookings extends AppCompatActivity implements MyAdapter.onNoteListener{
@@ -20,6 +22,7 @@ public class allBookings extends AppCompatActivity implements MyAdapter.onNoteLi
     DBHelper db;
 
     RecyclerView recyclerView;
+    FloatingActionButton fab;
     ArrayList<String> ind,from,to,dis,veh;
     MyAdapter adapter;
 
@@ -39,10 +42,19 @@ public class allBookings extends AppCompatActivity implements MyAdapter.onNoteLi
         veh = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recylerview);
+        fab = findViewById(R.id.floatingBtn);
         adapter = new MyAdapter(this, ind,from,to,dis,veh,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         displayData();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
+
 
 
 
@@ -68,7 +80,21 @@ public class allBookings extends AppCompatActivity implements MyAdapter.onNoteLi
 //
 //        }
 
+
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,login.class);
+        startActivity(intent);
+    }
+
+    private void openActivity() {
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+
 
     private void displayData() {
         Cursor cursor = db.getData();

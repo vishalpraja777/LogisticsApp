@@ -3,6 +3,7 @@ package com.example.logisticapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -88,10 +89,16 @@ public class bookedStatus extends AppCompatActivity {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(bookedStatus.this, indSt, Toast.LENGTH_SHORT).show();
+                Toast.makeText(bookedStatus.this, "Delivered", Toast.LENGTH_SHORT).show();
                 db.deleteData(indSt);
+               openActivity();
             }
         });
 
+    }
+
+    private void openActivity() {
+        Intent intent = new Intent(this,allBookings.class);
+        startActivity(intent);
     }
 }

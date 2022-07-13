@@ -2,7 +2,9 @@ package com.example.logisticapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageView ct,bt,train,flight;
     private TextView vehc;
 
+    SharedPreferences sp;
+
     String vehSt;
 
    // DBHelper db;
@@ -45,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         bt = findViewById(R.id.bt);
         train = findViewById(R.id.train);
         flight = findViewById(R.id.flight);
+
+        sp = getSharedPreferences("ID" , Context.MODE_PRIVATE);
+
+
 
         vehc = findViewById(R.id.vehc);
 
@@ -129,8 +137,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         else {
 
+
+
+
             long len = db.getTableLen();
-            String ind = String.valueOf(len);
+//            String ind = String.valueOf(len);
+            String ind = "0";
+
+            SharedPreferences.Editor editor = sp.edit();
+
+
+            if(sp.getString("id","") == ""){
+                editor.putString("id","0");
+                editor.commit();
+            }
+            else {
+                ind = sp.getString("id", "");
+                int id = Integer.parseInt(ind);
+                id++;
+                editor.putString("id", String.valueOf(id));
+                editor.commit();
+            }
+
+
+
+
 
             Boolean checkData = db.insertData(ind,fromSt,toSt,disSt,vehSt);
 
